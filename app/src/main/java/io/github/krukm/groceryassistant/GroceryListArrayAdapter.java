@@ -56,14 +56,17 @@ public class GroceryListArrayAdapter extends BaseAdapter {
 
         final GroceryItem currentItem = (GroceryItem) getItem(position);
         viewHolder.itemName.setText(currentItem.getItemName());
+        viewHolder.itemQuantity.setText(String.valueOf(currentItem.getQuantity()));
         viewHolder.checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if(isChecked) {
                     viewHolder.itemName.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                    viewHolder.itemQuantity.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                     groceryItems.get(position).setSelected(true);
                 } else {
                     viewHolder.itemName.setPaintFlags(0);
+                    viewHolder.itemQuantity.setPaintFlags(0);
                     groceryItems.get(position).setSelected(false);
                 }
             }
@@ -77,10 +80,12 @@ public class GroceryListArrayAdapter extends BaseAdapter {
     private class ViewHolder {
         final CheckBox checkBox;
         final TextView itemName;
+        final TextView itemQuantity;
 
-        public ViewHolder(View view) {
+        private ViewHolder(View view) {
             checkBox = (CheckBox) view.findViewById(R.id.item_check_box);
             itemName = (TextView) view.findViewById(R.id.item_text_view);
+            itemQuantity = (TextView) view.findViewById(R.id.item_quantity_text_view);
         }
     }
 }

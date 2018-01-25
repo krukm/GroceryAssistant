@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">GroceryAssistant</string>
     <string name="add_item">Add items here</string>
+    <string name="add_quantity">#</string>
     <string name="add_button">Add Item</string>
     <string name="title">Grocery List Assistant</string>
 </resources>
