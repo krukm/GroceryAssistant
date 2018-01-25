@@ -9,11 +9,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-
 public class MainActivity extends Activity implements OnClickListener {
 
-    ArrayList<GroceryItem> groceryList = new ArrayList<>();
     GroceryListArrayAdapter groceryListArrayAdapter;
     ListView groceryListView;
     EditText addItemEditText;
@@ -30,11 +27,10 @@ public class MainActivity extends Activity implements OnClickListener {
         addItemButton = (Button) findViewById(R.id.add_item_button);
         itemCheckBox = (CheckBox) findViewById(R.id.item_check_box);
 
-        groceryListArrayAdapter = new GroceryListArrayAdapter(this, groceryList);
+        groceryListArrayAdapter = new GroceryListArrayAdapter(this);
         groceryListView.setAdapter(groceryListArrayAdapter);
 
         addItemButton.setOnClickListener(this);
-
     }
 
     @Override
@@ -44,8 +40,7 @@ public class MainActivity extends Activity implements OnClickListener {
             case R.id.add_item_button: {
                 String newItem = addItemEditText.getText().toString();
                 GroceryItem groceryItem = new GroceryItem(newItem);
-                groceryList.add(0, groceryItem);
-                groceryListArrayAdapter.notifyDataSetChanged();
+                groceryListArrayAdapter.addItem(groceryItem);
                 addItemEditText.setText("");
             }
         }

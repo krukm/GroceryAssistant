@@ -1,7 +1,6 @@
 package io.github.krukm.groceryassistant;
 
 
-import android.content.ClipData.Item;
 import android.content.Context;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
@@ -17,12 +16,16 @@ import java.util.ArrayList;
 
 public class GroceryListArrayAdapter extends BaseAdapter {
 
-    private final Context c;
-    private ArrayList<GroceryItem> groceryItems = new ArrayList<>();
+    private final LayoutInflater inflater;
+    private final ArrayList<GroceryItem> groceryItems = new ArrayList<>();
 
-    public GroceryListArrayAdapter(Context context, ArrayList<GroceryItem> groceryItems) {
-        this.c = context;
-        this.groceryItems = groceryItems;
+    public GroceryListArrayAdapter(Context context) {
+        this.inflater = LayoutInflater.from(context);
+    }
+
+    public void addItem(GroceryItem item) {
+        groceryItems.add(0, item);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -42,38 +45,38 @@ public class GroceryListArrayAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-
         final ViewHolder viewHolder;
-
-
         if(convertView == null) {
-            convertView = LayoutInflater.from(c).inflate(R.layout.row_items, parent, false);
+            convertView = inflater.inflate(R.layout.row_items, parent, false);
             viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        GroceryItem currentItem = (GroceryItem) getItem(position);
+        final GroceryItem currentItem = (GroceryItem) getItem(position);
         viewHolder.itemName.setText(currentItem.getItemName());
-
         viewHolder.checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if(isChecked) {
                     viewHolder.itemName.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                    groceryItems.get(position).setSelected(true);
                 } else {
                     viewHolder.itemName.setPaintFlags(0);
+                    groceryItems.get(position).setSelected(false);
                 }
             }
         });
+
+        viewHolder.checkBox.setChecked(groceryItems.get(position).isSelected());
 
         return convertView;
     }
 
     private class ViewHolder {
-        CheckBox checkBox;
-        TextView itemName;
+        final CheckBox checkBox;
+        final TextView itemName;
 
         public ViewHolder(View view) {
             checkBox = (CheckBox) view.findViewById(R.id.item_check_box);
@@ -81,4 +84,3 @@ public class GroceryListArrayAdapter extends BaseAdapter {
         }
     }
 }
-
