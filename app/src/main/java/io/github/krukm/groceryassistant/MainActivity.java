@@ -48,7 +48,7 @@ public class MainActivity extends Activity implements OnClickListener {
                 GroceryItem groceryItem = new GroceryItem(newItem, newItemQuantity);
                 groceryListArrayAdapter.addItem(groceryItem);
                 addItemEditText.setText("");
-                itemQuantityEditText.setText("1");
+                itemQuantityEditText.setText("");
             }
         }
     }
